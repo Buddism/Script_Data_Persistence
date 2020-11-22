@@ -1,0 +1,5 @@
+Title: Player Persistence 
+Author: Eric Hartman
+Saves player and client object data when user disconnects from server, restores it when they rejoin.
+
+modified to be more modular by Buddy
