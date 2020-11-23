@@ -321,6 +321,10 @@ package PlayerPersistenceDBPackage
 
 		echo("Applying PersistenceDB" SPC %gotPlayer SPC %gotCamera);
 
+		%count = $PersistenceDB::ApplyFuncCount + 0;
+		for(%i = 0; %i < %count; %i++)
+			call($PersistenceDB::ApplyFunc[%i], %client, %player, %camera);
+			
 		if(!%gotPlayer && %gotCamera)
 		{
 			%client.setControlObject(%camera);

@@ -10,6 +10,18 @@ function isPersistenceDBSaveFunc(%name, %matchClass)
 	return 0;
 }
 
+//ran after persistence is loaded
+//only applied on the client
+function RegisterApplyPersistenceDBFunc(%funcName)
+{
+	%count = $PersistenceDB::ApplyFuncCount + 0;
+	for(%i = 0; %i < %count; %i++)
+		if($PersistenceDB::ApplyFunc[%i] $= %funcName)
+			return 1;
+
+	$PersistenceDB::ApplyFunc[%count] = %funcName;
+	$PersistenceDB::ApplyFuncCount++;
+}
 function RegisterPersistenceDBSaveFunc(%name, %matchClass)
 {
 	if(%matchClass $= "" || %matchClass $= "all")
