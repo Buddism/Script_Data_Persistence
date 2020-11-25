@@ -22,6 +22,7 @@ function RegisterApplyPersistenceDBFunc(%funcName)
 	$PersistenceDB::ApplyFunc[%count] = %funcName;
 	$PersistenceDB::ApplyFuncCount++;
 }
+//ran before it saves tagged fields
 function RegisterPersistenceDBSaveFunc(%name, %matchClass)
 {
 	if(%matchClass $= "" || %matchClass $= "all")

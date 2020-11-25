@@ -324,62 +324,6 @@ package PlayerPersistenceDBPackage
 		%count = $PersistenceDB::ApplyFuncCount + 0;
 		for(%i = 0; %i < %count; %i++)
 			call($PersistenceDB::ApplyFunc[%i], %client, %player, %camera);
-			
-		if(!%gotPlayer && %gotCamera)
-		{
-			%client.setControlObject(%camera);
-			%camera.setOrbitPointMode(%camera.orbitPoint, %camera.orbitDistance);
-
-			if(isObject(%player))
-				%player.delete();
-		}
-		else if(%gotPlayer)
-		{
-			//tell client about inventory
-			%toolCount = %player.getDataBlock().maxTools;
-			for(%i = 0; %i < %toolCount; %i++)
-			{
-				messageClient(%client, 'MsgItemPickup', "", %i, %player.tool[%i], 1); //the last 1 = silent
-			}
-
-			//if player is inside bricks, move up
-			%mask = $TypeMasks::FxBrickOBjectType;
-			%center = %player.getWorldBoxCenter();
-			%wb = %player.getWorldBox();
-			%xsize = (getWord(%wb, 3) - getWord(%wb, 0)) / 4 - 0.2;
-			%ysize = (getWord(%wb, 4) - getWord(%wb, 1)) / 4 - 0.2;
-			%zsize = (getWord(%wb, 5) - getWord(%wb, 2)) / 4 - 0.2;
-			//echo(%xsize SPC %ysize SPC %zsize);
-			%blockedOnce = false;
-			for(%i = 0; %i < 1000; %i++)
-			{
-				if(containerBoxClear(%mask, %center, %xsize, %ysize, %zsize))
-				{
-				   break;
-				}
-
-				//echo("blocked");
-				%center = vectorAdd(%center, "0 0" SPC %zsize);
-				%blockedOnce = true;
-				//echo(%center);
-			}
-			if(%blockedOnce)
-			{
-				%rot = getWords(%player.getTransform(), 3, 6);
-				%pos = vectorSub(%center, "0 0" SPC %zsize);
-				%player.setTransform(%pos SPC %rot);
-			}
-
-			//make player use the last tool they had out
-			if(%player.currTool >= 0 && %player.currTool < %toolCount)
-			{
-				commandToClient(%client, 'setActiveTool', %player.currTool);
-			}
-			else if(%client.currInv >= 0 && %client.currInv < %player.getDataBlock().maxItems)
-			{
-				commandToClient(%client, 'SetActiveBrick', %client.currInv);
-			}
-		}
 	}
 
    function GameConnection::onClientEnterGame(%client)
