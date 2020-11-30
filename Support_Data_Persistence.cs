@@ -126,6 +126,7 @@ function RegisterPersistenceDBVar(%name, %matchAll, %matchDataBlock, %matchClass
 		//not registered yet, add it
 		$PersistenceDB::MatchAll_Entry[$PersistenceDB::MatchAll_Count] = %name;
 		$PersistenceDB::MatchAll_ClassName[$PersistenceDB::MatchAll_Count] = %matchClassName;
+		$PersistenceDB::MatchAll_Datablock[$PersistenceDB::MatchAll_Count] = %matchDataBlock;
 		$PersistenceDB::MatchAll_Count++;
 
 		return 1;

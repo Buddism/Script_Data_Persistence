@@ -18,7 +18,7 @@ package PlayerPersistenceDBPackage
 
 	function GameConnection::savePersistenceDB(%client)
 	{
-		if(!%client.hasSpawnedOnce)
+		if(!%client.hasSpawnedOnce || !%client.persistenceDBLoaded)
 			return;
 
 		//client connected, but did not auth, seems like hasSpawnedOnce should catch this but it apparently doesn't
@@ -122,10 +122,9 @@ package PlayerPersistenceDBPackage
 					if($PersistenceDB::MatchAll_Datablock[%i] !$= "")
 					{
 						//before saving a datablock, we make sure it is the expected datablock type
-						//if you hit this error you are probably doing something wrong
 						if(!isObject(%value))
 						{
-							error("ERROR: PersistenceDB::SaveTaggedFields(" @ %obj @ ", " @ %file @ ") - (MatchAll \""@ $PersistenceDB::MatchAll_Entry[%i] @"\") tagged field " @ %name @ " => " @ %value @ " is not an object");
+							//error("ERROR: PersistenceDB::SaveTaggedFields(" @ %obj @ ", " @ %file @ ") - (MatchAll \""@ $PersistenceDB::MatchAll_Entry[%i] @"\") tagged field " @ %name @ " => " @ %value @ " is not an object");
 							break;
 						}
 						else if(%value.getClassName() $= $PersistenceDB::MatchAll_Datablock[%i])
@@ -136,7 +135,7 @@ package PlayerPersistenceDBPackage
 						}
 						else
 						{
-							error("ERROR: PersistenceDB::SaveTaggedFields(" @ %obj @ ", " @ %file @ ") - (MatchAll \""@ $PersistenceDB::MatchAll_Entry[%i] @"\") tagged field " @ %name @ " => " @ %value @ " is not a " @ $PersistenceDB::MatchDatablock[%name]);
+							//error("ERROR: PersistenceDB::SaveTaggedFields(" @ %obj @ ", " @ %file @ ") - (MatchAll \""@ $PersistenceDB::MatchAll_Entry[%i] @"\") tagged field " @ %name @ " => " @ %value @ " is not a " @ $PersistenceDB::MatchDatablock[%name]);
 							break;
 						}
 					}
@@ -191,6 +190,8 @@ package PlayerPersistenceDBPackage
 			%file.delete();
 			return;
 		}
+
+		%client.persistenceDBLoaded = true;
 
 		echo("Loading PersistenceDB for BLID " @ %client.getBLID());
 
