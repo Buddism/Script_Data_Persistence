@@ -109,7 +109,7 @@ function RegisterPersistenceDBVarHandler(%name, %matchAll, %matchClassName, %han
 	}
 }
 
-function RegisterPersistenceDBVar(%name, %matchAll, %matchDataBlock, %matchClassName)
+function RegisterPersistenceDBVar(%name, %matchAll, %matchDataBlock, %matchClassName, %handlerFunc)
 {
 	if(%matchAll)
 	{
@@ -127,6 +127,7 @@ function RegisterPersistenceDBVar(%name, %matchAll, %matchDataBlock, %matchClass
 		$PersistenceDB::MatchAll_Entry[$PersistenceDB::MatchAll_Count] = %name;
 		$PersistenceDB::MatchAll_ClassName[$PersistenceDB::MatchAll_Count] = %matchClassName;
 		$PersistenceDB::MatchAll_Datablock[$PersistenceDB::MatchAll_Count] = %matchDataBlock;
+		$PersistenceDB::MatchAll_funcHandler[$PersistenceDB::MatchAll_Count] = %handlerFunc;
 		$PersistenceDB::MatchAll_Count++;
 
 		return 1;
@@ -136,6 +137,7 @@ function RegisterPersistenceDBVar(%name, %matchAll, %matchDataBlock, %matchClass
 		//simple name match
 		$PersistenceDB::MatchName[%name] = true;
 		$PersistenceDB::MatchDatablock[%name] = %matchDataBlock;
+		$PersistenceDB::MatchfuncHandler[%name] = %handlerFunc;
 		$PersistenceDB::MatchClassName[%name] = %matchClassName;
 
 		return 1;

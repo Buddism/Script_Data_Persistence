@@ -109,7 +109,13 @@ package PlayerPersistenceDBPackage
 			%saveLine = false;
 			if($PersistenceDB::MatchName[%name] $= "1" && ($PersistenceDB::MatchClassName[%name] $= "" || $PersistenceDB::MatchClassName[%name] $= %className))
 			{
-				%saveLine = true;
+				if($PersistenceDB::MatchfuncHandler[%name] !$= "")
+				{
+					%ret = call($PersistenceDB::MatchfuncHandler[%name], %obj, %value, %name);
+					if(getFieldCount(%ret) >= 2)
+						%file.writeLine(%ret);
+						
+				} else %saveLine = true;
 			}
 			else
 			{
@@ -118,6 +124,15 @@ package PlayerPersistenceDBPackage
 					%len = strlen($PersistenceDB::MatchAll_Entry[%i]);
 					if( ($PersistenceDB::MatchAll_ClassName[%i] !$= "" && $PersistenceDB::MatchAll_ClassName[%i] !$= %className) || strnicmp($PersistenceDB::MatchAll_Entry[%i], %name, %len) != 0)
 						continue;
+
+					if($PersistenceDB::MatchAll_funcHandler[%i] !$= "")
+					{
+						%ret = call($PersistenceDB::MatchAll_funcHandler[%i], %obj, %value, %name, %i);
+						if(getFieldCount(%ret) >= 2)
+							%file.writeLine(%ret);
+
+						break;
+					}
 
 					if($PersistenceDB::MatchAll_Datablock[%i] !$= "")
 					{
