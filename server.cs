@@ -270,7 +270,7 @@ package PlayerPersistenceDBPackage
 					//$PersistenceDB::SpecialMatchAll_Entry		[$PersistenceDB::SpecialMatchAll_Count] = %name;
 					//$PersistenceDB::SpecialMatchAll_ClassName [$PersistenceDB::SpecialMatchAll_Count] = %matchClassName;
 					//$PersistenceDB::SpecialMatchAll_Handler		[$PersistenceDB::SpecialMatchAll_Count] = %handlerFunc;
-					%len = strlen($PersistenceDB::MatchAll_Entry[%i]);
+					%len = strlen($PersistenceDB::SpecialMatchAll_Entry[%i]);
 					if( ($PersistenceDB::SpecialMatchAll_ClassName[%i] !$= "" && $PersistenceDB::SpecialMatchAll_ClassName[%i] !$= %currObjClass) || strnicmp($PersistenceDB::SpecialMatchAll_Entry[%i], %name, %len) != 0)
 						continue;
 					%func = $PersistenceDB::SpecialMatchAll_Handler[%i];
