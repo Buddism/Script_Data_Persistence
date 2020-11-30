@@ -45,7 +45,7 @@ package PlayerPersistenceDBPackage
 		%count = $PersistenceDB::FuncCount["CLIENT"];
 		for(%i = 0; %i < %count; %i++)
 		{
-			%ret = call($PersistenceDB::Func["CLIENT", %i], %client);
+			%ret = call($PersistenceDB::Func["CLIENT", %i], %client, %file);
 			if(getFieldCount(%ret) >= 2)
 				%file.writeLine(%ret);
 		}
@@ -61,7 +61,7 @@ package PlayerPersistenceDBPackage
 			%count = $PersistenceDB::FuncCount["PLAYER"];
 			for(%i = 0; %i < %count; %i++)
 			{
-				%ret = call($PersistenceDB::Func["PLAYER", %i], %player, %client);
+				%ret = call($PersistenceDB::Func["PLAYER", %i], %player, %client, %file);
 				if(getFieldCount(%ret) >= 2)
 					%file.writeLine(%ret);
 			}
@@ -79,7 +79,7 @@ package PlayerPersistenceDBPackage
 				%count = $PersistenceDB::FuncCount["CAMERA"];
 				for(%i = 0; %i < %count; %i++)
 				{
-					%ret = call($PersistenceDB::Func["CAMERA", %i], %camera, %client);
+					%ret = call($PersistenceDB::Func["CAMERA", %i], %camera, %client, %file);
 					if(getFieldCount(%ret) >= 2)
 						%file.writeLine(%ret);
 				}
@@ -111,10 +111,10 @@ package PlayerPersistenceDBPackage
 			{
 				if($PersistenceDB::MatchfuncHandler[%name] !$= "")
 				{
-					%ret = call($PersistenceDB::MatchfuncHandler[%name], %obj, %value, %name);
+					%ret = call($PersistenceDB::MatchfuncHandler[%name], %obj, %value, %name, %file);
 					if(getFieldCount(%ret) >= 2)
 						%file.writeLine(%ret);
-						
+
 				} else %saveLine = true;
 			}
 			else
@@ -127,7 +127,7 @@ package PlayerPersistenceDBPackage
 
 					if($PersistenceDB::MatchAll_funcHandler[%i] !$= "")
 					{
-						%ret = call($PersistenceDB::MatchAll_funcHandler[%i], %obj, %value, %name, %i);
+						%ret = call($PersistenceDB::MatchAll_funcHandler[%i], %obj, %value, %name, %i, %file);
 						if(getFieldCount(%ret) >= 2)
 							%file.writeLine(%ret);
 
